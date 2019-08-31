@@ -16,11 +16,11 @@ module Text.Pandoc.App (
             convertWithOpts
           , Opt(..)
           , LineEnding(..)
-          , Filter(..)
+          -- , Filter(..)
           , defaultOpts
           , parseOptions
           , options
-          , applyFilters
+          -- , applyFilters
           ) where
 import Prelude
 import qualified Control.Exception as E
@@ -34,9 +34,9 @@ import Data.Maybe (fromMaybe, isJust, isNothing)
 import qualified Data.Set as Set
 import Data.Text (Text)
 import qualified Data.Text as T
-import qualified Data.Text.Lazy as TL
-import qualified Data.Text.Lazy.Encoding as TE
-import qualified Data.Text.Encoding.Error as TE
+-- import qualified Data.Text.Lazy as TL
+-- import qualified Data.Text.Lazy.Encoding as TE
+-- import qualified Data.Text.Encoding.Error as TE
 import qualified Data.Text.Encoding.Error as TSE
 import Network.URI (URI (..), parseURI)
 import System.Directory (doesDirectoryExist)
@@ -51,8 +51,8 @@ import Text.Pandoc.App.CommandLineOptions (parseOptions, options)
 import Text.Pandoc.App.OutputSettings (OutputSettings (..), optToOutputSettings)
 import Text.Pandoc.BCP47 (Lang (..), parseBCP47)
 import Text.Pandoc.Builder (setMeta, deleteMeta)
-import Text.Pandoc.Filter (Filter (JSONFilter, LuaFilter), applyFilters)
-import Text.Pandoc.PDF (makePDF)
+-- import Text.Pandoc.Filter (Filter (JSONFilter, LuaFilter), applyFilters)
+-- import Text.Pandoc.PDF (makePDF)
 import Text.Pandoc.Readers.Markdown (yamlToMeta)
 import Text.Pandoc.SelfContained (makeDataURI, makeSelfContained)
 import Text.Pandoc.Shared (eastAsianLineBreakFilter, stripEmptyParagraphs,
@@ -68,7 +68,7 @@ import System.Posix.Terminal (queryTerminal)
 convertWithOpts :: Opt -> IO ()
 convertWithOpts opts = do
   let outputFile = fromMaybe "-" (optOutputFile opts)
-  let filters = optFilters opts
+  -- let filters = optFilters opts
   let verbosity = optVerbosity opts
 
   when (optDumpArgs opts) $
@@ -76,14 +76,14 @@ convertWithOpts opts = do
        mapM_ (UTF8.hPutStrLn stdout) (optInputFiles opts)
        exitSuccess
 
-  let isPandocCiteproc (JSONFilter f) = takeBaseName f == "pandoc-citeproc"
-      isPandocCiteproc _              = False
-  -- --bibliography implies -F pandoc-citeproc for backwards compatibility:
-  let needsCiteproc = isJust (lookup "bibliography" (optMetadata opts)) &&
-                      optCiteMethod opts `notElem` [Natbib, Biblatex] &&
-                      all (not . isPandocCiteproc) filters
-  let filters' = if needsCiteproc then JSONFilter "pandoc-citeproc" : filters
-                                  else filters
+  -- let isPandocCiteproc (JSONFilter f) = takeBaseName f == "pandoc-citeproc"
+  --     isPandocCiteproc _              = False
+  -- -- --bibliography implies -F pandoc-citeproc for backwards compatibility:
+  -- let needsCiteproc = isJust (lookup "bibliography" (optMetadata opts)) &&
+  --                     optCiteMethod opts `notElem` [Natbib, Biblatex] &&
+  --                     all (not . isPandocCiteproc) filters
+  -- let filters' = if needsCiteproc then JSONFilter "pandoc-citeproc" : filters
+  --                                 else filters
 
   let sources = case optInputFiles opts of
                      []  -> ["-"]
@@ -294,20 +294,21 @@ convertWithOpts opts = do
               >=> return . addNonPresentMetadata metadataFromFile
               >=> return . addMetadata metadata
               >=> applyTransforms transforms
-              >=> applyFilters readerOpts filters' [format]
+              -- >=> applyFilters readerOpts filters' [format]
               >=> maybe return extractMedia (optExtractMedia opts)
               )
 
     case writer of
       ByteStringWriter f -> f writerOptions doc >>= writeFnBinary outputFile
       TextWriter f -> case outputPdfProgram outputSettings of
-        Just pdfProg -> do
-                res <- makePDF pdfProg (optPdfEngineArgs opts) f
-                        writerOptions doc
-                case res of
-                     Right pdf -> writeFnBinary outputFile pdf
-                     Left err' -> throwError $ PandocPDFError $
-                                     TL.unpack (TE.decodeUtf8With TE.lenientDecode err')
+        -- TODO: -Wincomplete-patterns
+        -- Just pdfProg -> do
+        --         res <- makePDF pdfProg (optPdfEngineArgs opts) f
+        --                 writerOptions doc
+        --         case res of
+        --              Right pdf -> writeFnBinary outputFile pdf
+        --              Left err' -> throwError $ PandocPDFError $
+        --                              TL.unpack (TE.decodeUtf8With TE.lenientDecode err')
 
         Nothing -> do
                 let ensureNl t

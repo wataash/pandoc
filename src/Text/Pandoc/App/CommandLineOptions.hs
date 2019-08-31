@@ -43,7 +43,7 @@ import System.FilePath
 import System.IO (stdout)
 import Text.Pandoc
 import Text.Pandoc.App.Opt (Opt (..), LineEnding (..))
-import Text.Pandoc.Filter (Filter (..))
+-- import Text.Pandoc.Filter (Filter (..))
 import Text.Pandoc.Highlighting (highlightingStyles)
 import Text.Pandoc.Writers.Math (defaultMathJaxURL, defaultKaTeXURL)
 import Text.Pandoc.Shared (ordNub, safeRead, defaultUserDataDirs)
@@ -420,21 +420,21 @@ options =
                    "extension")
                   "" -- "Default extension for extensionless images"
 
-    , Option "F" ["filter"]
-                 (ReqArg
-                  (\arg opt -> return opt { optFilters =
-                                    JSONFilter (normalizePath arg) :
-                                    optFilters opt })
-                  "PROGRAM")
-                 "" -- "External JSON filter"
+    -- , Option "F" ["filter"]
+    --              (ReqArg
+    --               (\arg opt -> return opt { optFilters =
+    --                                 JSONFilter (normalizePath arg) :
+    --                                 optFilters opt })
+    --               "PROGRAM")
+    --              "" -- "External JSON filter"
 
-    , Option "L" ["lua-filter"]
-                 (ReqArg
-                  (\arg opt -> return opt { optFilters =
-                                    LuaFilter (normalizePath arg) :
-                                    optFilters opt })
-                  "SCRIPTPATH")
-                 "" -- "Lua filter"
+    -- , Option "L" ["lua-filter"]
+    --              (ReqArg
+    --               (\arg opt -> return opt { optFilters =
+    --                                 LuaFilter (normalizePath arg) :
+    --                                 optFilters opt })
+    --               "SCRIPTPATH")
+    --              "" -- "Lua filter"
 
     , Option "" ["shift-heading-level-by"]
                  (ReqArg

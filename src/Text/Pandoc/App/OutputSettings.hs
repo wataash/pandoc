@@ -86,17 +86,22 @@ optToOutputSettings opts = do
                   else map toLower $ baseWriterName writerName
 
   (writer, writerExts) <-
-            if ".lua" `isSuffixOf` format
-               then return (TextWriter
-                       (\o d -> writeCustom writerName o d)
-                               :: Writer PandocIO, mempty)
-               else case getWriter (map toLower writerName) of
-                         Left e  -> throwError $ PandocAppError $
-                           if format == "pdf"
-                              then e ++ "\n" ++ pdfIsNoWriterErrorMsg
-                              else e
-                         Right (w, es) -> return (w :: Writer PandocIO, es)
-
+            -- if ".lua" `isSuffixOf` format
+            --    then return (TextWriter
+            --            (\o d -> writeCustom writerName o d)
+            --                    :: Writer PandocIO, mempty)
+            --    else case getWriter (map toLower writerName) of
+            --              Left e  -> throwError $ PandocAppError $
+            --                if format == "pdf"
+            --                   then e ++ "\n" ++ pdfIsNoWriterErrorMsg
+            --                   else e
+            --              Right (w, es) -> return (w :: Writer PandocIO, es)
+            case getWriter (map toLower writerName) of
+                Left e  -> throwError $ PandocAppError $
+                  if format == "pdf"
+                     then e ++ "\n" ++ pdfIsNoWriterErrorMsg
+                     else e
+                Right (w, es) -> return (w :: Writer PandocIO, es)
 
   let standalone = optStandalone opts || not (isTextFormat format) || pdfOutput
 

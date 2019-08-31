@@ -22,7 +22,7 @@ module Text.Pandoc.App.Opt (
           ) where
 import Prelude
 import GHC.Generics
-import Text.Pandoc.Filter (Filter (..))
+-- import Text.Pandoc.Filter (Filter (..))
 import Text.Pandoc.Highlighting (Style, pygments)
 import Text.Pandoc.Logging (Verbosity (WARNING))
 import Text.Pandoc.Options (TopLevelDivision (TopLevelDefault),
@@ -87,7 +87,7 @@ data Opt = Opt
     , optDpi                   :: Int     -- ^ Dpi
     , optWrapText              :: WrapOption  -- ^ Options for wrapping text
     , optColumns               :: Int     -- ^ Line length in characters
-    , optFilters               :: [Filter] -- ^ Filters to apply
+    -- , optFilters               :: [Filter] -- ^ Filters to apply
     , optEmailObfuscation      :: ObfuscationMethod
     , optIdentifierPrefix      :: String
     , optStripEmptyParagraphs  :: Bool -- ^ Strip empty paragraphs
@@ -162,7 +162,7 @@ defaultOpts = Opt
     , optDpi                   = 96
     , optWrapText              = WrapAuto
     , optColumns               = 72
-    , optFilters               = []
+    -- , optFilters               = []
     , optEmailObfuscation      = NoObfuscation
     , optIdentifierPrefix      = ""
     , optStripEmptyParagraphs  = False
