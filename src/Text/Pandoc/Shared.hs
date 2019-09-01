@@ -618,9 +618,9 @@ isTightList = all firstIsPlain
 taskListItemFromAscii :: Extensions -> [Block] -> [Block]
 taskListItemFromAscii = handleTaskListItem fromMd
   where
-    fromMd (Str "[" : Space : Str "]" : Space : is) = (Str "☐") : Space : is
-    fromMd (Str "[x]"                 : Space : is) = (Str "☒") : Space : is
-    fromMd (Str "[X]"                 : Space : is) = (Str "☒") : Space : is
+    -- fromMd (Str "[" : Space : Str "]" : Space : is) = (Str "☐") : Space : is
+    -- fromMd (Str "[x]"                 : Space : is) = (Str "☒") : Space : is
+    -- fromMd (Str "[X]"                 : Space : is) = (Str "☒") : Space : is
     fromMd is = is
 
 -- | Convert a list item containing text starting with @U+2610 BALLOT BOX@

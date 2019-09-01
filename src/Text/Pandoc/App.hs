@@ -300,28 +300,40 @@ convertWithOpts opts = do
 
     case writer of
       ByteStringWriter f -> f writerOptions doc >>= writeFnBinary outputFile
-      TextWriter f -> case outputPdfProgram outputSettings of
-        -- TODO: -Wincomplete-patterns
-        -- Just pdfProg -> do
-        --         res <- makePDF pdfProg (optPdfEngineArgs opts) f
-        --                 writerOptions doc
-        --         case res of
-        --              Right pdf -> writeFnBinary outputFile pdf
-        --              Left err' -> throwError $ PandocPDFError $
-        --                              TL.unpack (TE.decodeUtf8With TE.lenientDecode err')
-
-        Nothing -> do
-                let ensureNl t
-                      | standalone = t
-                      | T.null t || T.last t /= '\n' = t <> T.singleton '\n'
-                      | otherwise = t
-                output <- ensureNl <$> f writerOptions doc
-                writerFn eol outputFile =<<
-                  if optSelfContained opts && htmlFormat format
-                     -- TODO not maximally efficient; change type
-                     -- of makeSelfContained so it works w/ Text
-                     then T.pack <$> makeSelfContained (T.unpack output)
-                     else return output
+      -- TextWriter f -> case outputPdfProgram outputSettings of
+      --   Just pdfProg -> do
+      --           res <- makePDF pdfProg (optPdfEngineArgs opts) f
+      --                   writerOptions doc
+      --           case res of
+      --                Right pdf -> writeFnBinary outputFile pdf
+      --                Left err' -> throwError $ PandocPDFError $
+      --                                TL.unpack (TE.decodeUtf8With TE.lenientDecode err')
+      --   Nothing -> do
+      --           let ensureNl t
+      --                 | standalone = t
+      --                 | T.null t || T.last t /= '\n' = t <> T.singleton '\n'
+      --                 | otherwise = t
+      --           output <- ensureNl <$> f writerOptions doc
+      --           writerFn eol outputFile =<<
+      --             if optSelfContained opts && htmlFormat format
+      --                -- TODO not maximally efficient; change type
+      --                -- of makeSelfContained so it works w/ Text
+      --                then T.pack <$> makeSelfContained (T.unpack output)
+      --                else return output
+      TextWriter f -> do
+        let ensureNl t
+              | standalone = t
+              | T.null t || T.last t /= '\n' = t <> T.singleton '\n'
+              | otherwise = t
+        -- writerOptions:
+        -- doc: nodes :: [CMarkGFM.Node] = [CMarkGFM.Node ...
+        output <- ensureNl <$> f writerOptions doc
+        writerFn eol outputFile =<<
+          if optSelfContained opts && htmlFormat format
+             -- TODO not maximally efficient; change type
+             -- of makeSelfContained so it works w/ Text
+             then T.pack <$> makeSelfContained (T.unpack output)
+             else return output
 
 type Transform = Pandoc -> Pandoc
 

@@ -30,13 +30,18 @@ import Text.Printf (printf)
 import qualified Data.Map as M
 import Data.String
 
+{-
+md:        'foo' & "bar"
+original:  'foo' &amp; &quot;foo&quot;
+modified:  'foo' & "bar"
+-}
 -- | Escape one character as needed for XML.
 escapeCharForXML :: Char -> String
 escapeCharForXML x = case x of
-                       '&' -> "&amp;"
+                      --  '&' -> "&amp;"
                        '<' -> "&lt;"
                        '>' -> "&gt;"
-                       '"' -> "&quot;"
+                      --  '"' -> "&quot;"
                        c   -> [c]
 
 -- | Escape string as needed for XML.  Entity references are not preserved.
