@@ -138,12 +138,18 @@ convertWithOpts opts = do
                        Just f  -> return f
                        Nothing -> case formatFromFilePaths sources of
                            Just f' -> return f'
-                           Nothing | sources == ["-"] -> return "markdown"
-                                   | any isURI sources -> return "html"
+                           -- Nothing | sources == ["-"] -> return "markdown"
+                           --         | any isURI sources -> return "html"
+                           --         | otherwise -> do
+                           --   report $ UnknownExtensions
+                           --       (map takeExtension sources) "markdown"
+                           --   return "markdown"
+                           Nothing | sources == ["-"] -> return "gfm"
+                                   | any isURI sources -> return "tracwiki"
                                    | otherwise -> do
                              report $ UnknownExtensions
-                                 (map takeExtension sources) "markdown"
-                             return "markdown"
+                                 (map takeExtension sources) "gfm"
+                             return "gfm"
 
     let pdfOutput = map toLower (takeExtension outputFile) == ".pdf"
 
@@ -259,7 +265,8 @@ convertWithOpts opts = do
                        "none"   -> (filterIpynbOutput Nothing :)
                        "best"   -> (filterIpynbOutput (Just $
                                      if htmlFormat format
-                                        then Format "html"
+                                        -- then Format "html"
+                                        then Format "tracwiki"
                                         else
                                           case format of
                                             "latex"  -> Format "latex"

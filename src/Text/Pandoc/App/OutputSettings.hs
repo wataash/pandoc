@@ -71,13 +71,16 @@ optToOutputSettings opts = do
        then liftIO $ pdfWriterAndProg (optWriter opts) (optPdfEngine opts)
        else case optWriter opts of
               Nothing
-                | outputFile == "-" -> return ("html", Nothing)
+                -- | outputFile == "-" -> return ("html", Nothing)
+                | outputFile == "-" -> return ("tracwiki", Nothing)
                 | otherwise ->
                     case formatFromFilePaths [outputFile] of
                            Nothing -> do
                              report $ UnknownExtensions
-                                [takeExtension outputFile] "html"
-                             return ("html", Nothing)
+                                -- [takeExtension outputFile] "html"
+                                [takeExtension outputFile] "tracwiki"
+                            --  return ("html", Nothing)
+                             return ("tracwiki", Nothing)
                            Just f  -> return (f, Nothing)
               Just f   -> return (f, Nothing)
 

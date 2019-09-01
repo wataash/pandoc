@@ -123,7 +123,8 @@ blockToMediaWiki (LineBlock lns) =
   blockToMediaWiki $ linesToPara lns
 
 blockToMediaWiki b@(RawBlock f str)
-  | f == Format "mediawiki" = return str
+  -- | f == Format "mediawiki" = return str
+  | f == Format "tracwiki" = return str
   | f == Format "html"      = return str
   | otherwise               = "" <$ report (BlockNotRendered b)
 
@@ -621,7 +622,8 @@ inlineToMediaWiki (Math mt str) = return $
   -- note:  str should NOT be escaped
 
 inlineToMediaWiki il@(RawInline f str)
-  | f == Format "mediawiki" = return str
+  -- | f == Format "mediawiki" = return str
+  | f == Format "tracwiki" = return str
   | f == Format "html"      = return str
   | otherwise               = "" <$ report (InlineNotRendered il)
 
