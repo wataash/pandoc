@@ -279,9 +279,11 @@ convertWithOpts opts = do
         sourceToDoc sources' =
            case reader of
                 TextReader r
+                  -- opts:Opt {optTabStop = 4, optPreserveTabs = False, ...} readerName:"gfm"
                   | optFileScope opts || readerName == "json" ->
                       mconcat <$> mapM (readSource >=> r readerOpts) sources'
                   | otherwise ->
+                      -- sources':"...md"
                       readSources sources' >>= r readerOpts
                 ByteStringReader r ->
                   mconcat <$> mapM (readFile' >=> r readerOpts) sources'
