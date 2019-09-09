@@ -21,7 +21,7 @@ module Text.Pandoc.Writers
     -- , writeAsciiDoc
     -- , writeAsciiDoctor
     -- , writeBeamer
-    -- , writeCommonMark
+    , writeCommonMark
     -- , writeConTeXt
     -- , writeCustom
     -- , writeDZSlides
@@ -79,7 +79,7 @@ import Text.Pandoc.Definition
 import Text.Pandoc.Options
 -- import qualified Text.Pandoc.UTF8 as UTF8
 -- import Text.Pandoc.Writers.AsciiDoc
--- import Text.Pandoc.Writers.CommonMark
+import Text.Pandoc.Writers.CommonMark
 -- import Text.Pandoc.Writers.ConTeXt
 -- import Text.Pandoc.Writers.Custom
 -- import Text.Pandoc.Writers.Docbook
@@ -170,8 +170,8 @@ writers = [
   -- ,("asciidoc"     , TextWriter writeAsciiDoc)
   -- ,("asciidoctor"  , TextWriter writeAsciiDoctor)
   -- ,("haddock"      , TextWriter writeHaddock)
-  -- ,("commonmark"   , TextWriter writeCommonMark)
-  -- ,("gfm"          , TextWriter writeCommonMark)
+  ,("commonmark"   , TextWriter writeCommonMark)
+  ,("gfm"          , TextWriter writeCommonMark)
   -- ,("tei"          , TextWriter writeTEI)
   -- ,("muse"         , TextWriter writeMuse)
   ]

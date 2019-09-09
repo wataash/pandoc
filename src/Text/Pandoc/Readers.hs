@@ -29,7 +29,7 @@ module Text.Pandoc.Readers
   , readCommonMark
   -- , readCreole
   -- , readDokuWiki
-  -- , readMediaWiki
+  , readMediaWiki
   -- , readVimwiki
   -- , readRST
   -- , readOrg
@@ -78,7 +78,7 @@ import Text.Pandoc.Readers.CommonMark
 -- import Text.Pandoc.Readers.JATS (readJATS)
 -- import Text.Pandoc.Readers.LaTeX
 -- import Text.Pandoc.Readers.Markdown
--- import Text.Pandoc.Readers.MediaWiki
+import Text.Pandoc.Readers.MediaWiki
 -- import Text.Pandoc.Readers.Muse
 import Text.Pandoc.Readers.Native
 -- import Text.Pandoc.Readers.Odt
@@ -111,7 +111,7 @@ readers = [ ("native"       , TextReader readNative)
           --  ,("dokuwiki"     , TextReader readDokuWiki)
            ,("gfm"          , TextReader readCommonMark)
           --  ,("rst"          , TextReader readRST)
-          --  ,("mediawiki"    , TextReader readMediaWiki)
+           ,("mediawiki"    , TextReader readMediaWiki)
           --  ,("vimwiki"      , TextReader readVimwiki)
           --  ,("docbook"      , TextReader readDocBook)
           --  ,("opml"         , TextReader readOPML)
