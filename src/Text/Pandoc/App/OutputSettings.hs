@@ -1,3 +1,6 @@
+{-# LANGUAGE Strict #-}
+{-# LANGUAGE StrictData #-}
+
 {-# LANGUAGE CPP                 #-}
 {-# LANGUAGE FlexibleContexts    #-}
 {-# LANGUAGE NoImplicitPrelude   #-}

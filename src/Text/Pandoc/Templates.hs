@@ -1,3 +1,6 @@
+{-# LANGUAGE Strict #-}
+{-# LANGUAGE StrictData #-}
+
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE OverloadedStrings #-}

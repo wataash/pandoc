@@ -1,3 +1,6 @@
+{-# LANGUAGE Strict #-}
+{-# LANGUAGE StrictData #-}
+
 {-# LANGUAGE NoImplicitPrelude #-}
 module Text.Pandoc.Writers.Math
   ( texMathToInlines

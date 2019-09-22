@@ -1,3 +1,6 @@
+{-# LANGUAGE Strict #-}
+{-# LANGUAGE StrictData #-}
+
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternGuards #-}

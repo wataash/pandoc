@@ -1,3 +1,6 @@
+{-# LANGUAGE Strict #-}
+{-# LANGUAGE StrictData #-}
+
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE RelaxedPolyRec #-}
 -- RelaxedPolyRec needed for inlinesBetween on GHC < 7
