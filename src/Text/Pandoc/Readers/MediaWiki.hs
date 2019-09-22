@@ -181,20 +181,26 @@ parseMediaWiki = do
 -- block parsers
 --
 
+trace184 a = a
+
 block :: PandocMonad m => MWParser m Blocks
 block = do
-  res <- mempty <$ skipMany1 blankline
-     <|> table
-     <|> header
-     <|> hrule
-     <|> orderedList
-     <|> bulletList
-     <|> definitionList
-     <|> mempty <$ try (spaces *> htmlComment)
-     <|> preformatted
-     <|> blockTag
-     <|> (B.rawBlock "mediawiki" <$> template)
-     <|> para
+  res <-
+     mempty <$
+     trace184 (skipMany1 blankline)
+     -- <|> table
+     <|>
+     trace184 header
+     -- <|> hrule
+     -- <|> orderedList
+     -- <|> bulletList
+     -- <|> definitionList
+     -- <|> mempty <$ try (spaces *> htmlComment)
+     -- <|> preformatted
+     -- <|> blockTag
+     -- <|> (B.rawBlock "mediawiki" <$> template)
+     <|>
+     trace184 para
   trace (take 60 $ show $ B.toList res)
   return res
 
@@ -514,21 +520,21 @@ firstParaToPlain contents =
 
 inline :: PandocMonad m => MWParser m Inlines
 inline =  whitespace
-      <|> url
+      -- <|> url
       <|> str
-      <|> doubleQuotes
-      <|> strong
-      <|> emph
-      <|> image
+      -- <|> doubleQuotes
+      -- <|> strong -- TODO
+      -- <|> emph -- TODO
+      -- <|> image -- TODO
       <|> internalLink
-      <|> externalLink
-      <|> math
-      <|> inlineTag
-      <|> B.singleton <$> charRef
-      <|> inlineHtml
-      <|> (B.rawInline "mediawiki" <$> variable)
-      <|> (B.rawInline "mediawiki" <$> template)
-      <|> special
+      -- <|> externalLink -- TODO
+      -- <|> math
+      -- <|> inlineTag -- TODO
+      -- <|> B.singleton <$> charRef -- TODO
+      -- <|> inlineHtml -- TODO
+      -- <|> (B.rawInline "mediawiki" <$> variable) -- TODO
+      -- <|> (B.rawInline "mediawiki" <$> template) -- TODO
+      -- <|> special -- TODO
 
 str :: PandocMonad m => MWParser m Inlines
 str = B.str <$> many1 (noneOf $ specialChars ++ spaceChars)
@@ -585,7 +591,14 @@ inlineHtml = B.rawInline "html" . snd <$> htmlTag isInlineTag'
 
 whitespace :: PandocMonad m => MWParser m Inlines
 whitespace = B.space <$ (skipMany1 spaceChar <|> htmlComment)
-         <|> B.softbreak <$ endline
+        --  <|> B.softbreak <$ endline
+         <|> B.linebreak <$ endline
+--
+  -- (eof >> return mempty)
+  --   <|> (guardEnabled Ext_hard_line_breaks >> return (return B.linebreak))
+  --   <|> (guardEnabled Ext_ignore_line_breaks >> return mempty)
+  --   <|> (skipMany spaceChar >> return (return B.softbreak))
+--
 
 endline :: PandocMonad m => MWParser m ()
 endline = () <$ try (newline <*
